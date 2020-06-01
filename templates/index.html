@@ -1,56 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="center" style="display: flex;
-    justify-content: center;
-    align-items: center; 
-    margin: 20px;">
-        <button class="button"><a href="{% url 'homepage'%}">HOME</a></button>
-        <button class="button"><a href="{% url 'add_tweet' id=user.id %}">TWEET</a></button>
-        <button class="button"><a href="{% url 'notification'%}">NOTIFICATIONS</a></button>
-        <button class="button"><a href="{% url 'authorinfo' id=user.id %}">PROFILE</a></button>
-       
-  </div>
 
-    <div>
-      {% if user.is_authenticated %}
-      <div class="container">
-        <div class="row">
-          <div class="col-sm">
-          <div style="display:flex; flex-direction: column; align-items: right; align-content: space-evenly; height: 210px; width: 250px;border: 1px solid black; margin: 10px; padding: 10px">
-            <h4>{{ user.username }}</h4>
-            <h4><a href="{% url 'authorinfo' id=user.id %}">@{{user.displayname}}</a></h4>
-            <br>
-            <br>
-          </div>
- <button class="button"><a href="{% url 'logoutview'%}">LOGOUT</a></button>
-          </div>
-          <div class="col-sm">
-             <h4>What people are talking about</h4>
-             {% for tweet in data %}
-             
-  <li style="list-style-type: none; display: flex; flex-direction: column; align-items: center; height: 100px; width: 400px; ">
-  <a href="{% url 'authorinfo' id=tweet.author.id %}">@{{ tweet.author }}</a>
-     {{ tweet.time }}
-     <a href="{% url 'tweet_detail' id=tweet.id %}">{{ tweet.tweet }}</a>
-    </p>
+<nav class="navbar " >
+    <a class="navbar-brand" href="/"><h3>TWITTER</h3></a>
   
- 
-  </li>
-            
-              {% endfor %}
-          </div>
-        </div>
-      </div>
-    
-    </div>
+  <nav class="navbar  nav justify-content-center">
+    <ul class=" nav nav-pills nav-fill ">
+      <button class="nav-item ">
+        <a class="nav-link" href="{% url 'homepage'%}">HOME<span class="sr-only">(current)</span></a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'add_tweet' id=user.id %}">TWEET</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'notification'%}">NOTIFICATIONS</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'authorinfo' id=user.id %}">PROFILE</a>
+      </button>
+    </ul>
+  </nav>
+</nav>
 
-     
- 
-    
-
-
-
-   {% endif %}
-    
+<div>
+{% if user.is_authenticated %}
+<div class="container">
+<div class="row">
+<div class="col-sm">
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h3 class="card-title">{{ user.displayname }}</h3>
+    <h5 class="card-text"><a href="{% url 'authorinfo' id=user.id %}">@{{user.username}}</a></h5>
+    <br>
+    <a href="{% url 'logoutview'%}" class="btn btn-primary">LOGOUT</a>
+  </div>
+</div>
+</div>
+<div class="col-sm">
+<h4>What people are talking about</h4>
+{% for tweet in data %}
+<div class="card w-160">
+<div class="card-body">
+<h5 class="card-subtitle mb-2 text-muted"><a href="{% url 'authorinfo' id=tweet.author.id %}">@{{ tweet.author }}</a></h5>
+<p class="card-text">{{ tweet.tweet }}</p>
+<a href="{% url 'tweet_detail' id=tweet.id %}" class="card-link">{{ tweet.time }}</a>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+{% endif %}
+</div>
 {% endblock %}

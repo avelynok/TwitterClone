@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<nav class="navbar " >
+    <a class="navbar-brand" href="/"><h3>TWITTER</h3></a>
+  
+  <nav class="navbar  nav justify-content-center">
+    <ul class=" nav nav-pills nav-fill ">
+      <button class="nav-item ">
+        <a class="nav-link" href="{% url 'homepage'%}">HOME<span class="sr-only">(current)</span></a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'add_tweet' id=user.id %}">TWEET</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'notification'%}">NOTIFICATIONS</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'authorinfo' id=user.id %}">PROFILE</a>
+      </button>
+    </ul>
+  </nav>
+</nav>
+
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}

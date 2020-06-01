@@ -1,32 +1,59 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<nav class="navbar " >
+  <a class="navbar-brand" href="/"><h3>TWITTER</h3></a>
+  
+  <nav class="navbar  nav justify-content-center">
+    <ul class=" nav nav-pills nav-fill ">
+      <button class="nav-item ">
+        <a class="nav-link" href="{% url 'homepage'%}">HOME<span class="sr-only">(current)</span></a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'add_tweet' id=user.id %}">TWEET</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'notification'%}">NOTIFICATIONS</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'authorinfo' id=user.id %}">PROFILE</a>
+      </button>
+    </ul>
+  </nav>
+</nav>
 
-<div >
-<h1 style="margin:50px; text-align:center; color: Blue">{{ user.username}}'s Profile</h1>
+<div class="container">
+<div class="row">
+<div class="col-sm">
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h3 class="card-title">{{ user.displayname }}</h3>
+    <h5 class="card-text"><a href="{% url 'authorinfo' id=user.id %}">@{{user.username}}</a></h5>
+    <br>
+    <p class="card-text"><h5>Tweets: {{counttweets}}</h5></p>
+    <p class="card-text"><h5>Following: {{countfollowers}}</h5></p>
+    {% if is_following %}
+    <a href="{% url 'unfollow' id=user.id%}" class="btn btn-primary">UNFOLLOW</a>
+    {% else %}
+    <a href="{% url 'follow' id=user.id%}" class="btn btn-primary">FOLLOW</a>
+    {% endif %}
+    <br>
+    <br>
+    <a href="{% url 'logoutview'%}" class="btn btn-primary">LOGOUT</a>
+  </div>
 </div>
-<div style="display:flex; flex-direction: column; align-items: center; align-content: space-evenly">
-<h2>Following: {{countfollowers}}</h2>
-<h3># ofTweets: {{counttweets}}</h3>
-<ul>
+</div>
 
-  {% for tweet in tweets %}
-  <li style="list-style-type: none; display: flex; flex-direction: column; align-items: center; height: 75px; width: 250px;border: 1px solid black; margin: 10px; padding: 10px">
-  {{tweet.time}}
-   <p>
-  {{tweet.tweet}}
-  </p>
-  </li>
-  {% endfor %}
-</ul>
-
-{% if is_following %}
-<a href = {% url 'unfollow' id=user.id%}><button>UnFollow</button></a>
-{% else %}
-<a href = {% url 'follow' id=user.id%}><button>Follow</button></a>
-{% endif %}
-
-<button class="button"><a href="{% url 'homepage' %}">Home</a></button>
+<div class="col-sm">
+<h4>What people are talking about</h4>
+{% for tweet in tweets %}
+<div class="card w-100">
+<div class="card-body">
+<p class="card-text">{{ tweet.tweet }}</p>
+<a href="{% url 'tweet_detail' id=tweet.id %}" class="card-link">{{ tweet.time }}</a>
+</div>
+</div>
+{% endfor %}
 </div>
 
 {% endblock %}

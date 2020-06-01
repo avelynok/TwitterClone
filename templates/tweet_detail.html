@@ -1,16 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div style="background-color:rgb(202, 235, 221);">
-  <br>
-  <h2><a href="/">Home</a></h2>
+<nav class="navbar " >
+   <a class="navbar-brand" href="/"><h3>TWITTER</h3></a>
+  
+  <nav class="navbar  nav justify-content-center">
+    <ul class=" nav nav-pills nav-fill ">
+      <button class="nav-item ">
+        <a class="nav-link" href="{% url 'homepage'%}">HOME<span class="sr-only">(current)</span></a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'add_tweet' id=user.id %}">TWEET</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'notification'%}">NOTIFICATIONS</a>
+      </button>
+      <button class="nav-item">
+        <a class="nav-link" href="{% url 'authorinfo' id=user.id %}">PROFILE</a>
+      </button>
+    </ul>
+  </nav>
+</nav>
+
+<div class="card w-100">
+<div class="card-body">
+<h2 class="card-text">{{ tweet.tweet }}</h2>
+<h5 class="card-text">Posted by: <a href="{% url 'authorinfo' id=tweet.author.id %}">@{{ tweet.author }}</a></h5>
+<h4 class="card-link">Posted on: {{ tweet.time }}</h4>
 </div>
-<div style="border: 1px solid black">
-<h1>{{tweet.tweet}}</h1>
-<h3>
-  Posted by:
-  <a href="{% url 'authorinfo' id=tweet.author.id %}">@{{ tweet.author }}</a>
-</h3>
-<h3>Posted on: {{tweet.time}}</h3>
 </div>
 {% endblock %}
