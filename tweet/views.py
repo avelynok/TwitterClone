@@ -4,7 +4,7 @@ from tweet.models import Tweet
 from twitteruser.models import MyUser
 import re
 from notification.models import Notification
-
+from django.views.generic import View
 
 # Create your views here.
 def add_tweet(request, id):
@@ -30,7 +30,8 @@ def add_tweet(request, id):
     return render(request, 'addtweet.html', {'form': form})
     
 
-def tweet_detail(request, id):
-    tweet = Tweet.objects.get(id=id)
-    return render(request, 'tweet_detail.html', {'tweet': tweet})
 
+class tweet_detail(View):
+    def get(self, request, id):
+        tweet = Tweet.objects.get(id=id)
+        return render(request, 'tweet.html', {'tweet':tweet})

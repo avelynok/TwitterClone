@@ -3,9 +3,10 @@ from twitteruser.models import MyUser
 from twitteruser.forms import SignupForm
 from django.contrib.auth import login, authenticate
 from tweet.models import Tweet
+from django.views.generic import View
 
 # Create your views here.
-def signup(request):
+"""def signup(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -20,8 +21,27 @@ def signup(request):
             return HttpResponseRedirect(reverse('homepage'))
     form = SignupForm()
     return render(request, 'SignupForm.html', {'form': form})
-
-
+"""
+class signup(View):
+    def get(self, request):
+        form = SignupForm()
+        return render(request, 'SignupForm.html', {'form': form})
+    def post(self, request):
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = MyUser.objects.create_user(
+                username=data['username'],
+                displayname=data['displayname'],
+                password=data['password1'],
+                
+                )
+            user.save()
+            login(request, user)
+        return HttpResponseRedirect(reverse('homepage'))
+    
+    
+    
 def AuthorInfo(request, id):
     tweets = Tweet.objects.filter(author=id)
     counttweets = tweets.count()

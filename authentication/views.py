@@ -7,13 +7,19 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from twitterclone import settings
+from django.views.generic import View
+from django.utils.decorators import method_decorator
 
 # Create your views here.
-@login_required
+"""@login_required
 def index(request):
     data = Tweet.objects.all().order_by('-time')
-    return render(request, 'index.html', {'data': data})
-
+    return render(request, 'index.html', {'data': data})"""
+class index(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        data = Tweet.objects.all().order_by('-time')
+        return render(request, 'index.html', {'data': data})
 
 def loginview(request):
     if request.method == "POST":
