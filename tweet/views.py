@@ -34,4 +34,4 @@ def add_tweet(request, id):
 class tweet_detail(View):
     def get(self, request, id):
         tweet = Tweet.objects.get(id=id)
-        return render(request, 'tweet.html', {'tweet':tweet})
+        return render(request, 'tweet_detail.html', {'tweet':tweet})
